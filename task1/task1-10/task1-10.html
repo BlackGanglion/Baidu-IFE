@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE-task1-10</title>
+    <style media="screen">
+    /*
+    参考：阮一峰老师博客
+    http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html
+     */
+     */
+    html, body, .container {
+      padding: 0;
+      margin: 0;
+    }
+    .container {
+      display: flex;
+      /* 主轴对齐方式，两端对齐，项目之间的间隔都相等 */
+      justify-content: space-between;
+      /* 交叉轴对齐方式 交叉轴的中点对齐 */
+      align-items: center;
+    }
+    .container div {
+      width: 150px;
+      padding: 20px;
+    }
+    .first {
+      height: 120px;
+      background: red;
+    }
+    .second {
+      height: 100px;
+      background: blue;
+    }
+    .third {
+      height: 40px;
+      background: yellow;
+    }
+    .fourth {
+      height: 200px;
+      background: green;
+    }
+
+    /* 当屏幕宽度小于640px时发生变化 */
+    @media screen and (max-width: 640px) {
+      .container {
+        /* 主轴向上对齐 */
+        align-items: flex-start;
+        /* 一条轴线排不下，换行 */
+        flex-wrap: wrap;
+      }
+      /* 将最后一块排到最前面 */
+      .fourth {
+        order: -1;
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="first"></div>
+      <div class="second"></div>
+      <div class="third"></div>
+      <div class="fourth"></div>
+    </div>
+  </body>
+</html>
