@@ -1,0 +1,40 @@
+body,
+div {
+  padding: 0;
+  margin: 0;
+}
+.main {
+  background-color: black;
+  width: 380px;
+  height: 500px;
+  margin: 0 auto;
+  position: relative;
+}
+.planet {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 150px;
+  height: 150px;
+  background-color: blue;
+  margin-left: -75px;
+  margin-top: -75px;
+  border-radius: 75px;
+}
+.ship {
+  width: 60px;
+  height: 35px;
+  background-color: #eee;
+  border-radius: 5px;
+  position: absolute;
+}
+#ship1 {
+  top: 107.5px;
+  left: 160px;
+}
+#ship2 {
+  top: 232.5px;
+  left: 35px;
+  -webkit-transform: rotate(36deg);
+  transform: rotate(36deg);
+}

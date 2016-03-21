@@ -1,0 +1,51 @@
+@mainWidth: 380px;
+@mainHeight: 500px;
+
+body, div {
+  padding: 0;
+  margin: 0;
+}
+
+.main {
+  background-color: black;
+  width: @mainWidth;
+  height: @mainHeight;
+  margin: 0 auto;
+  position: relative;
+}
+
+@planetSize: 150px;
+.planet {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: @planetSize;
+  height: @planetSize;
+  background-color: blue;
+  margin-left: -@planetSize / 2;
+  margin-top: -@planetSize / 2;
+  border-radius: @planetSize / 2;
+}
+
+@orbitRadius: @planetSize / 2 + 50px;
+@shipWidth: 60px;
+@shipHeight: 35px;
+.ship {
+  width: @shipWidth;
+  height: @shipHeight;
+  background-color: #eee;
+  border-radius: 5px;
+  position: absolute;
+}
+
+#ship1 {
+  top: @mainHeight / 2 - @orbitRadius - (@shipHeight / 2);
+  left: @mainWidth / 2 - (@shipWidth / 2);
+}
+
+#ship2 {
+  top: @mainHeight / 2 - (@shipHeight / 2);
+  left: @mainWidth / 2 - @orbitRadius - (@shipWidth / 2);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
