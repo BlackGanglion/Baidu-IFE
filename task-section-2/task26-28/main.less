@@ -6,12 +6,27 @@ body, div {
   margin: 0;
 }
 
+ul {
+  padding: 0;
+}
+
+ul li{
+  list-style: none;
+}
+
 .main {
   background-color: black;
   width: @mainWidth;
   height: @mainHeight;
   margin: 0 auto;
   position: relative;
+}
+
+.control {
+  width: @mainWidth - 40px;
+  margin: 20px auto;
+  border: 1px solid black;
+  padding: 20px;
 }
 
 @planetSize: 150px;
@@ -43,9 +58,16 @@ body, div {
   left: @mainWidth / 2 - (@shipWidth / 2);
 }
 
+#tip {
+  font-weight: bold;
+  color: red;
+}
+
+/*
 #ship2 {
   top: @mainHeight / 2 - (@shipHeight / 2);
   left: @mainWidth / 2 - @orbitRadius - (@shipWidth / 2);
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
+*/
