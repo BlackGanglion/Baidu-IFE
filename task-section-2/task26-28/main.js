@@ -1,41 +1,43 @@
-var shipDOM = document.getElementsByClassName('ship'),
-    orbitRadius = 125,
-    mainHeight = 500,
-    mainWidth = 380,
-    shipCount = 4;
+const orbitRadius = 125,
+      mainHeight = 500,
+      mainWidth = 380,
+      shipCount = 4;
 
-var controlList = document.getElementById("control-list");
+let shipDOM = document.getElementsByClassName('ship'),
+    controlList = document.getElementById('control-list');
 
-function Ship(id) {
-  this.id = id;
-  this.event = null;
-  this.deg = 0;
-  this.isStart = 0;
-}
+class Ship {
+  static width = 60;
+  static height = 35;
 
-Ship.prototype = {
-  width: 60,
-  height: 35,
-  start: function() {
+  constructor(id) {
+    this.id = id;
+    this.event = null;
+    this.deg = 0;
+    this.isStart = 0;
+  }
+
+  start() {
     this.isStart = 1;
-    var that = this;
+    let self = this;
     this.event = setInterval(function(){
-      that.transform(0, that.deg);
-      that.deg++;
-      if(that.deg === 360) that.deg = 0;
+      self.transform();
+      self.deg++;
+      if(self.deg === 360) self.deg = 0;
     }, 50);
 
-    var element = document.creatElement("li");
-    element.setAttribute('id', 'control' + this.id);
-    
-  },
-  stop: function() {
+    //let element = document.creatElement('li');
+    //element.setAttribute('id', 'control' + this.id);
+  }
+
+  stop() {
     this.isStart = 0;
     clearInterval(this.event);
     this.event = null;
-  },
-  transform: function() {
-    var target = shipDOM[this.id],
+  }
+
+  transform() {
+    let target = shipDOM[this.id],
         deg = this.deg,
         x = 0, y = 0,
         rad = 0,
@@ -57,25 +59,28 @@ Ship.prototype = {
       y = orbitRadius * Math.sin(rad);
       x = -(Math.sqrt(orbitRadius * orbitRadius - y * y));
     }
-    top = mainHeight / 2 - y - (this.height / 2);
-    left = mainWidth / 2 - x - (this.width / 2);
+    top = mainHeight / 2 - y - (Ship.height / 2);
+    left = mainWidth / 2 - x - (Ship.width / 2);
     target.style.top = top + "px";
     target.style.left = left + "px";
     target.style.transform = "rotate(-" + deg + "deg)";
     target.style.webkitTransform = "rotate(-" + deg + "deg)";
   }
+
 }
 
-var shipList = {
-  nowQueue: [],
-  init: function() {
-    for(var i = 0; i < shipCount; i++) {
+class ShipList {
+  nowQueue = []
+
+  constructor() {
+    for(let i = 0; i < shipCount; i++) {
       this.nowQueue.push(new Ship(i));
     }
-  },
-  findNoStartShip: function() {
-    var resId = -1;
-    for(var i = 0; i < this.nowQueue.length; i++) {
+  }
+
+  findNoStartShip() {
+    let resId = -1;
+    for(let i = 0; i < this.nowQueue.length; i++) {
       if(resId === -1 && this.nowQueue[i].isStart === 0) {
         resId = this.nowQueue[i].id;
         break;
@@ -83,18 +88,19 @@ var shipList = {
     }
     return resId;
   }
+
 }
 
-shipList.init();
+let shipList = new ShipList();
 
-var createButton = document.getElementById("create");
+const createButton = document.getElementById("create");
 createButton.addEventListener("click", function(e) {
-  var id = shipList.findNoStartShip();
+  let id = shipList.findNoStartShip();
   if(id === -1) {
-    var tip = document.getElementById("tip");
+    let tip = document.getElementById("tip");
     tip.textContent = "飞船已全部启动";
   } else {
-    var ship = shipList.nowQueue[id];
+    let ship = shipList.nowQueue[id];
     ship.start();
   }
 }, false);
