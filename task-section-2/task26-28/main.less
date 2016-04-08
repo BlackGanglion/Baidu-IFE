@@ -14,16 +14,40 @@ ul li{
   list-style: none;
 }
 
+.container {
+  width: 80%;
+  margin: 20px auto;
+}
+
 .main {
   background-color: black;
   width: @mainWidth;
   height: @mainHeight;
-  margin: 0 auto;
   position: relative;
+  display: inline-block;
+}
+
+.dc {
+  display: inline-block;
+  height: @mainHeight;
+  width: 600px;
+  margin-left: 30px;
+  border: 2px solid #eee;
+  table {
+    width: 80%;
+    margin: 10px auto;
+    border: 2px solid #eee;
+    thead {
+      background-color: #eee;
+      line-height: 2;
+      text-align: center;
+      border: 2px solid #eee;
+    }
+  }
 }
 
 .control {
-  width: @mainWidth - 40px;
+  width: 80%;
   margin: 20px auto;
   border: 1px solid black;
   padding: 20px;
@@ -43,17 +67,31 @@ ul li{
 }
 
 @orbitRadius: @planetSize / 2 + 50px;
-@shipWidth: 60px;
-@shipHeight: 35px;
+@shipWidth: 90px;
+@shipHeight: 40px;
 .ship {
   width: @shipWidth;
   height: @shipHeight;
   background-color: #eee;
-  border-radius: 5px;
+  border-radius: @shipHeight / 2;
   position: absolute;
+  display: none;
+  line-height: @shipHeight;
+  text-align: center;
+  font-weight: bold;
 }
 
-#ship1 {
+.orbit {
+  position: absolute;
+  width: @orbitRadius * 2;
+  height: @orbitRadius * 2;
+  border-radius: @orbitRadius;
+  border: 1px solid yellow;
+  top: (@mainHeight - @orbitRadius * 2) / 2;
+  left: (@mainWidth - @orbitRadius * 2) / 2;
+}
+
+#ship1, #ship2, #ship3, #ship4 {
   top: @mainHeight / 2 - @orbitRadius - (@shipHeight / 2);
   left: @mainWidth / 2 - (@shipWidth / 2);
 }
@@ -63,6 +101,13 @@ ul li{
   color: red;
 }
 
+#control-list .control-list-ele {
+  display: none;
+}
+
+#create {
+  margin-bottom: 5px;
+}
 /*
 #ship2 {
   top: @mainHeight / 2 - (@shipHeight / 2);

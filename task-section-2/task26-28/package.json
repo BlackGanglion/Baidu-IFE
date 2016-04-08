@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "build": "babel main.js -o compiled.js --presets es2015,stage-0,stage-1,stage-2,stage-3"
+    "build": "babel main.js -o compiled.js --presets es2015,stage-0,stage-1,stage-2,stage-3 && lessc main.less > main.css"
   },
   "author": "",
   "license": "ISC",

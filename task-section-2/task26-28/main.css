@@ -9,15 +9,37 @@ ul {
 ul li {
   list-style: none;
 }
+.container {
+  width: 80%;
+  margin: 20px auto;
+}
 .main {
   background-color: black;
   width: 380px;
   height: 500px;
-  margin: 0 auto;
   position: relative;
+  display: inline-block;
+}
+.dc {
+  display: inline-block;
+  height: 500px;
+  width: 600px;
+  margin-left: 30px;
+  border: 2px solid #eee;
+}
+.dc table {
+  width: 80%;
+  margin: 10px auto;
+  border: 2px solid #eee;
+}
+.dc table thead {
+  background-color: #eee;
+  line-height: 2;
+  text-align: center;
+  border: 2px solid #eee;
 }
 .control {
-  width: 340px;
+  width: 80%;
   margin: 20px auto;
   border: 1px solid black;
   padding: 20px;
@@ -34,19 +56,41 @@ ul li {
   border-radius: 75px;
 }
 .ship {
-  width: 60px;
-  height: 35px;
+  width: 90px;
+  height: 40px;
   background-color: #eee;
-  border-radius: 5px;
+  border-radius: 20px;
   position: absolute;
+  display: none;
+  line-height: 40px;
+  text-align: center;
+  font-weight: bold;
 }
-#ship1 {
-  top: 107.5px;
-  left: 160px;
+.orbit {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  border-radius: 125px;
+  border: 1px solid yellow;
+  top: 125px;
+  left: 65px;
+}
+#ship1,
+#ship2,
+#ship3,
+#ship4 {
+  top: 105px;
+  left: 145px;
 }
 #tip {
   font-weight: bold;
   color: red;
+}
+#control-list .control-list-ele {
+  display: none;
+}
+#create {
+  margin-bottom: 5px;
 }
 /*
 #ship2 {

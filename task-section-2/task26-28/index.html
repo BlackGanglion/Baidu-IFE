@@ -7,23 +7,80 @@
     <link rel="stylesheet" href="main.css" media="screen" title="no title" charset="utf-8">
   </head>
   <body>
-    <div class="main">
-      <div class="planet"></div>
-      <div class="ship" id="ship1"></div>
+    <div class="container">
+      <div class="main">
+        <div class="planet"></div>
+        <div class="orbit"></div>
+        <div class="ship" id="ship1"></div>
+        <div class="ship" id="ship2"></div>
+        <div class="ship" id="ship3"></div>
+        <div class="ship" id="ship4"></div>
+      </div>
+      <div class="dc">
+        <table>
+          <thead>
+            <tr>
+              <td>飞船</td>
+              <td>动力系统</td>
+              <td>能源系统</td>
+              <td>当前飞行状态</td>
+              <td>剩余能源</td>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
     </div>
+
     <div class="control">
       <p id="tip"></p>
+      <button id="create">新的飞船创建</button>
+      <div class="dynamic">
+        <span>动力系统选择:</span>
+        <input type="radio" name="dynamic" data-speed="30" data-power="5" checked>
+        <span>前进号 (速率30px/s, 能耗5%/s)</span>
+        <input type="radio" name="dynamic" data-speed="50" data-power="7">
+        <span>奔腾号 (速率50px/s, 能耗7%/s)</span>
+        <input type="radio" name="dynamic" data-speed="80" data-power="9">
+        <span>前进号 (速率80px/s, 能耗9%/s)</span>
+      </div>
+      <div class="energy">
+        <span>能源系统选择:</span>
+        <input type="radio" name="energy" data-supply="2" value="energy" checked>
+        <span>劲量型 (补充能源速度 2%/s)</span>
+        <input type="radio" name="energy" data-supply="3" value="energy">
+        <span>光能型 (补充能源速度 3%/s)</span>
+        <input type="radio" name="energy" data-supply="4" value="energy">
+        <span>永久型 (补充能源速度 4%/s)</span>
+      </div>
+      <hr>
       <ul id="control-list">
-        <!--
-        <li>
-          <span>对1号飞船下达指令:</span>
-          <button>开始飞行</button>
-          <button>停止飞行</button>
-          <button>销毁</button>
+        <li class="control-list-ele">
+          <span>对0号飞船下达指令:</span>
+          <button data-action="start" data-id="0">开始飞行</button>
+          <button data-action="stop" data-id="0">停止飞行</button>
+          <button data-action="delete" data-id="0">销毁</button>
         </li>
-        -->
+        <li class="control-list-ele">
+          <span>对1号飞船下达指令:</span>
+          <button data-action="start" data-id="1">开始飞行</button>
+          <button data-action="stop" data-id="1">停止飞行</button>
+          <button data-action="delete" data-id="1">销毁</button>
+        </li>
+        <li class="control-list-ele">
+          <span>对2号飞船下达指令:</span>
+          <button data-action="start" data-id="2">开始飞行</button>
+          <button data-action="stop" data-id="2">停止飞行</button>
+          <button data-action="delete" data-id="2">销毁</button>
+        </li>
+        <li class="control-list-ele">
+          <span>对3号飞船下达指令:</span>
+          <button data-action="start" data-id="3">开始飞行</button>
+          <button data-action="stop" data-id="3">停止飞行</button>
+          <button data-action="delete" data-id="3">销毁</button>
+        </li>
       </ul>
-      <button id="create">新的飞船起飞</button>
     </div>
     <script src="compiled.js" charset="utf-8"></script>
   </body>
