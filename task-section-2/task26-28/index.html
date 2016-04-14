@@ -27,7 +27,23 @@
               <td>剩余能源</td>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="dc-list">
+            <!--
+            <tr>
+              <td>1号</td>
+              <td>前进号</td>
+              <td>劲量型</td>
+              <td>飞行中</td>
+              <td>33%</td>
+            </tr>
+            <tr>
+              <td>1号</td>
+              <td>前进号</td>
+              <td>劲量型</td>
+              <td>飞行中</td>
+              <td>33%</td>
+            </tr>
+            -->
           </tbody>
         </table>
       </div>
@@ -38,20 +54,20 @@
       <button id="create">新的飞船创建</button>
       <div class="dynamic">
         <span>动力系统选择:</span>
-        <input type="radio" name="dynamic" data-speed="30" data-power="5" checked>
+        <input type="radio" name="dynamic" data-speed="30" data-power="5" data-name="前进号" checked>
         <span>前进号 (速率30px/s, 能耗5%/s)</span>
-        <input type="radio" name="dynamic" data-speed="50" data-power="7">
+        <input type="radio" name="dynamic" data-speed="50" data-power="7" data-name="奔腾号">
         <span>奔腾号 (速率50px/s, 能耗7%/s)</span>
-        <input type="radio" name="dynamic" data-speed="80" data-power="9">
+        <input type="radio" name="dynamic" data-speed="80" data-power="9" data-name="前进号">
         <span>前进号 (速率80px/s, 能耗9%/s)</span>
       </div>
       <div class="energy">
         <span>能源系统选择:</span>
-        <input type="radio" name="energy" data-supply="2" value="energy" checked>
+        <input type="radio" name="energy" data-supply="2" value="energy" data-name="劲量型" checked>
         <span>劲量型 (补充能源速度 2%/s)</span>
-        <input type="radio" name="energy" data-supply="3" value="energy">
+        <input type="radio" name="energy" data-supply="3" value="energy" data-name="光能型">
         <span>光能型 (补充能源速度 3%/s)</span>
-        <input type="radio" name="energy" data-supply="4" value="energy">
+        <input type="radio" name="energy" data-supply="4" value="energy" data-name="永久型">
         <span>永久型 (补充能源速度 4%/s)</span>
       </div>
       <hr>

@@ -24,19 +24,28 @@ ul li {
   display: inline-block;
   height: 500px;
   width: 600px;
-  margin-left: 30px;
+  margin-left: 20px;
   border: 2px solid #eee;
 }
 .dc table {
   width: 80%;
   margin: 10px auto;
-  border: 2px solid #eee;
+  border-collapse: collapse;
 }
 .dc table thead {
   background-color: #eee;
   line-height: 2;
   text-align: center;
-  border: 2px solid #eee;
+}
+.dc table thead tr td {
+  border: 1px solid #ddd;
+}
+.dc table tbody {
+  line-height: 2;
+  text-align: center;
+}
+.dc table tbody tr td {
+  border: 1px solid #ddd;
 }
 .control {
   width: 80%;

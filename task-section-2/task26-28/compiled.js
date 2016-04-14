@@ -16,7 +16,8 @@ var shipDOM = document.getElementsByClassName("ship"),
     shipControlList = document.getElementsByClassName("control-list-ele"),
     tip = document.getElementById("tip"),
     shipControl = document.getElementById("control-list"),
-    createButton = document.getElementById("create");
+    createButton = document.getElementById("create"),
+    dcList = document.getElementById("dc-list");
 
 var Adapter = {
   binaryToCommand: function binaryToCommand(data) {
@@ -26,41 +27,103 @@ var Adapter = {
       "1100": "delete"
     };
 
-    var id = data.slice(0, 4).split('').reduce(function (prev, cur, index) {
+    // data为8位或16位
+    if (data.length == 8) {
+      return {
+        id: this.binaryTodecimal(data.slice(0, 4)),
+        commond: commondHash[data.slice(4, 8)]
+      };
+    } else {
+      if (data.length === 16) {
+        return {
+          id: this.binaryTodecimal(data.slice(0, 4)),
+          commond: commondHash[data.slice(4, 8)],
+          power: this.binaryTodecimal(data.slice(8, 16))
+        };
+      } else {
+        console.log('error data.length');
+      }
+    }
+  },
+  binaryTodecimal: function binaryTodecimal(binary) {
+    var l = binary.length;
+    var res = binary.split('').reduce(function (prev, cur, index) {
       if (parseInt(cur)) {
-        return parseInt(prev) + Math.pow(2, 3 - index);
+        return parseInt(prev) + Math.pow(2, l - 1 - index);
       } else {
         return parseInt(prev);
       }
     });
-    var commond = data.slice(4);
-
-    return {
-      id: id,
-      commond: commondHash[commond]
-    };
+    return res;
   },
-  commondTobinary: function commondTobinary(id, action) {
+  decimalTobinary: function decimalTobinary(number, digit) {
+    var res = [];
+    for (var i = 0; i < digit; i++) {
+      res.push(0);
+    }
+    while (digit--) {
+      if (number % 2) res[digit] = 1;
+      number = Math.floor(number / 2);
+      if (!number) break;
+    }
+    return res.join('');
+  },
+  commondTobinary: function commondTobinary(id, action, power) {
     var commondHash = {
       "start": "0001",
       "stop": "0010",
       "delete": "1100"
     };
 
-    var res = new Array('0', '0', '0', '0');
-    var count = 4;
-
-    while (count--) {
-      if (id % 2) res[count] = 1;
-      id = Math.floor(id / 2);
-      if (!id) break;
+    if (power === void 0) {
+      return this.decimalTobinary(id, 4) + commondHash[action];
+    } else {
+      return this.decimalTobinary(id, 4) + commondHash[action] + this.decimalTobinary(power, 8);
     }
-
-    return res.join('') + commondHash[action];
   }
 };
 
-var DC = {};
+var DC = {
+  receive: function receive(data) {
+    var commond = Adapter.binaryToCommand(data);
+    this.updateStatus(commond.id, commond.commond, commond.power);
+  },
+  createStatus: function createStatus(id, powerName, supplyName) {
+    var newTr = document.createElement('tr');
+    newTr.setAttribute('id', 'dc-list-' + id);
+    var newtd_1 = document.createElement('td');
+    newtd_1.innerHTML = id + '号';
+    newTr.appendChild(newtd_1);
+    var newtd_2 = document.createElement('td');
+    newtd_2.innerHTML = powerName;
+    newTr.appendChild(newtd_2);
+    var newtd_3 = document.createElement('td');
+    newtd_3.innerHTML = supplyName;
+    newTr.appendChild(newtd_3);
+    var newtd_4 = document.createElement('td');
+    newtd_4.innerHTML = '创建完毕';
+    newTr.appendChild(newtd_4);
+    var newtd_5 = document.createElement('td');
+    newtd_5.innerHTML = '100%';
+    newTr.appendChild(newtd_5);
+    dcList.appendChild(newTr);
+  },
+  deleteStatus: function deleteStatus(id) {
+    var thisNode = document.getElementById('dc-list-' + id);
+    thisNode.parentNode.removeChild(thisNode);
+  },
+  updateStatus: function updateStatus(id, action, power) {
+    var thisNode = document.getElementById('dc-list-' + id);
+
+    var actionHash = {
+      "start": "飞行中",
+      "stop": "停止中",
+      "delete": "即将销毁"
+    };
+    thisNode.childNodes[3].innerHTML = actionHash[action];
+    thisNode.childNodes[4].innerHTML = power + '%';
+  }
+};
 
 var Ship = function () {
   function Ship(id) {
@@ -74,7 +137,7 @@ var Ship = function () {
     this.isCreate = 0;
     // 当前飞行角度
     this.deg = 0;
-    // 当前能量值
+    // 当前能量百分比
     this.power = 100;
     // 飞行角度速率
     this.degSpeed = 0;
@@ -88,7 +151,7 @@ var Ship = function () {
 
   _createClass(Ship, [{
     key: "create",
-    value: function create(degSpeed, powerSpeed, supplySpeed) {
+    value: function create(degSpeed, powerSpeed, supplySpeed, powerName, supplyName) {
       this.isCreate = 1;
       this.degSpeed = 3 * degSpeed / (Math.PI * orbitRadius);
       this.supplySpeed = supplySpeed;
@@ -96,7 +159,7 @@ var Ship = function () {
       shipDOM[this.id].style.display = 'block';
       shipDOM[this.id].textContent = this.id + '号 - ' + this.power + '%';
       shipControlList[this.id].style.display = 'block';
-      this.sendDC();
+      this.sendDC(powerName, supplyName);
     }
   }, {
     key: "start",
@@ -155,6 +218,7 @@ var Ship = function () {
 
       clearInterval(this.sendState);
       this.sendState = null;
+      DC.deleteStatus(this.id);
     }
   }, {
     key: "transform",
@@ -218,8 +282,23 @@ var Ship = function () {
     }
   }, {
     key: "sendDC",
-    value: function sendDC() {
-      this.sendState = setInterval(function () {}, 1000);
+    value: function sendDC(powerName, supplyName) {
+      DC.createStatus(this.id, powerName, supplyName);
+      var self = this;
+      this.sendState = setInterval(function () {
+        var action = void 0;
+        if (self.isStart) {
+          action = 'start';
+        } else {
+          if (self.isCreate) {
+            action = 'stop';
+          } else {
+            action = 'delete';
+          }
+        }
+        var binary = Adapter.commondTobinary(self.id, action, self.power);
+        DC.receive(binary);
+      }, 1000);
     }
   }]);
 
@@ -276,9 +355,11 @@ createButton.addEventListener("click", function (e) {
     var select = document.querySelectorAll("input:checked");
     var degSpeed = select[0].getAttribute("data-speed"),
         powerSpeed = select[0].getAttribute("data-power"),
-        supplySpeed = select[1].getAttribute("data-supply");
+        powerName = select[0].getAttribute("data-name"),
+        supplySpeed = select[1].getAttribute("data-supply"),
+        supplyName = select[1].getAttribute("data-name");
 
-    shipList.nowQueue[id].create(degSpeed, powerSpeed, supplySpeed);
+    shipList.nowQueue[id].create(degSpeed, powerSpeed, supplySpeed, powerName, supplyName);
   }
 }, false);
 

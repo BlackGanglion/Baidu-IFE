@@ -31,17 +31,26 @@ ul li{
   display: inline-block;
   height: @mainHeight;
   width: 600px;
-  margin-left: 30px;
+  margin-left: 20px;
   border: 2px solid #eee;
   table {
     width: 80%;
     margin: 10px auto;
-    border: 2px solid #eee;
+    border-collapse: collapse;
     thead {
       background-color: #eee;
       line-height: 2;
       text-align: center;
-      border: 2px solid #eee;
+      tr td {
+        border: 1px solid #ddd;
+      }
+    }
+    tbody {
+      line-height: 2;
+      text-align: center;
+      tr td {
+        border: 1px solid #ddd;
+      }
     }
   }
 }
